@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ResourceExceptionHandler implements Serializable{
-	
+	private static final long serialVersionUID = 1L;
+
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
 		HttpStatus st= HttpStatus.NOT_FOUND;
