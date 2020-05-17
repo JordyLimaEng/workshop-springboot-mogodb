@@ -21,21 +21,32 @@ public class UserService {
 		return repo.findAll();// exemplo de função do springdata
 	}
 
-	public User findById(String id) {		
+	public User findById(String id) {
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
-	
+
 	public User insert(User obj) {
 		return repo.insert(obj);
 	}
-	
+
 	public void delete(String id) {
-		findById(id);//faz uma busca antes, pq se nao tiver obj com o id passado lança exception
+		findById(id);// faz uma busca antes, pq se nao tiver obj com o id passado lança exception
 		repo.deleteById(id);
 	}
-	
+
+	public User update(User obj) {
+		User newObj = findById(obj.getId());//pega os dados antigos
+		updateData(newObj, obj);//atualiza
+		return repo.save(newObj);//salva
+	}
+
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDto) {
-		return new User(objDto.getId(),objDto.getName(),objDto.getEmail());
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
 }
